@@ -13,6 +13,8 @@ namespace David
         
         public Vector2 MovementInput { get; private set; }
 
+        public bool JumpPressed { get; private set; }
+
         private void OnEnable()
         {
             PlayerInput = new PlayerInput();
@@ -27,6 +29,12 @@ namespace David
             PlayerInput.PlayerMosion.Disable();
             PlayerInput.PlayerMosion.RemoveCallbacks(this);
         }
+
+        private void LateUpdate()
+        {
+            JumpPressed = false;
+        }
+
         public void OnMovement(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();
@@ -46,6 +54,14 @@ namespace David
             //    Debug.Log("context.canceled");
             //    SprintToggledOn = !holdToSprint || SprintToggledOn;
             //}
+        }
+
+        public void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            if (!context.performed)
+                return;
+
+            JumpPressed = true;
         }
     }
 

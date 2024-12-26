@@ -5225,9 +5225,11 @@ MonoBehaviour:
   runAcceleration: 50
   runSpeed: 4
   sprintAcceleration: 100
-  sprintSpeed: 10
+  sprintSpeed: 30
   drag: 40
   movingThreshold: 0.01
+  gravity: 25
+  jumpSpeed: 1
 --- !u!4 &6603483002181254248
 Transform:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float sprintSpeed = 10f;
     public float drag = 0.1f;
     public float movingThreshold = 0.01f;
+    public float gravity = 25f;
+    public float jumpSpeed = 1.0f;
 
 
     private PlayerState playerState;
@@ -40,7 +42,8 @@ public class PlayerController : MonoBehaviour
         bool isMovementInput = locomotionInput.MovementInput != Vector2.zero;
         bool isMovingLaterally = IsMovingLaterally();
         bool isSprinting = locomotionInput.SprintToggledOn && isMovingLaterally;
-        
+        bool isGrounded = IsGrounded();
+            
         if (isSprinting)
         {
             playerState.SetPlayerMovementState(PlayerMovementState.Sprinting);
@@ -50,6 +53,19 @@ public class PlayerController : MonoBehaviour
             PlayerMovementState lateralState = isMovingLaterally || isMovementInput ? PlayerMovementState.Running : PlayerMovementState.Idleing;
             playerState.SetPlayerMovementState(lateralState);
         }
+
+        if (!isGrounded && characterController.velocity.y > 0f)
+        {
+            playerState.SetPlayerMovementState(PlayerMovementState.Jumping);
+        }
+        else if (!isGrounded && characterController.velocity.y < 0f)
+        {
+            playerState.SetPlayerMovementState(PlayerMovementState.Falling);
+        }
+    }
+
+    private void HandleVerticalMovement()
+    { 
         
     }
 
@@ -78,5 +94,12 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 lateralVelocity = new Vector3(characterController.velocity.x, 0, characterController.velocity.y);
         return lateralVelocity.magnitude > movingThreshold;
+    }
+
+    private bool IsGrounded()
+    {
+
+        return characterController.isGrounded;
+        
     }
 }
