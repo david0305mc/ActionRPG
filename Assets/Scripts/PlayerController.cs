@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public float gravity = 25f;
     public float jumpSpeed = 1.0f;
 
+    private float verticalVelocity;
+
 
     private PlayerState playerState;
     private PlayerLocoMotionInput locomotionInput;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateMovementState();
         HandleLateralMovement();
+        HandleVerticalMovement();
     }
 
     private void UpdateMovementState()
@@ -65,14 +68,24 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleVerticalMovement()
-    { 
-        
+    {
+        bool isGrounded = playerState.IsGroundedState();
+        if (isGrounded && verticalVelocity < 0)
+            verticalVelocity = 0f;
+
+        verticalVelocity -= gravity * Time.deltaTime;
+        if (locomotionInput.JumpPressed && isGrounded)
+        {
+            verticalVelocity += Mathf.Sqrt(jumpSpeed * 3 * gravity);
+        }
+
     }
 
     private void HandleLateralMovement()
     {
 
         bool isSprinting = playerState.CurrentPlayerMovementState == PlayerMovementState.Sprinting;
+        bool isGrounded = playerState.IsGroundedState();
 
         float lateralAccelaration = isSprinting ? sprintAcceleration : runAcceleration;
         float clampLateralMagnitude = isSprinting ? sprintSpeed : runSpeed;
@@ -83,6 +96,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movementDelta = movementDir * lateralAccelaration * Time.deltaTime;
         Vector3 newVelocity = characterController.velocity + movementDelta;
+        newVelocity.y += verticalVelocity;
 
         Vector3 currentDrag = newVelocity.normalized * drag * Time.deltaTime;
         newVelocity = (newVelocity.magnitude > drag * Time.deltaTime) ? newVelocity - currentDrag : Vector3.zero;

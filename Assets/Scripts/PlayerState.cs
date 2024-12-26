@@ -25,7 +25,14 @@ namespace David
             CurrentPlayerMovementState = playerMovementState;
               
         }
-    
+
+        public bool IsGroundedState()
+        {
+            return CurrentPlayerMovementState == PlayerMovementState.Idleing ||
+                CurrentPlayerMovementState == PlayerMovementState.Walking ||
+                CurrentPlayerMovementState == PlayerMovementState.Running ||
+                CurrentPlayerMovementState == PlayerMovementState.Strafing;
+        }
     }
 
 }
