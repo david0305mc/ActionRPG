@@ -7,7 +7,9 @@ namespace David
     [DefaultExecutionOrder(-2)]
     public class PlayerLocoMotionInput : MonoBehaviour, PlayerInput.IPlayerMosionActions
     {
+        [SerializeField] private bool holdToSprint = true;
         public PlayerInput PlayerInput { get; private set; }
+        public bool SprintToggledOn { get; private set; }
         
         public Vector2 MovementInput { get; private set; }
 
@@ -29,6 +31,21 @@ namespace David
         {
             MovementInput = context.ReadValue<Vector2>();
             Debug.Log($"MoveMent{MovementInput}");
+        }
+
+        public void OnSprintToggle(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                Debug.Log("context.performed");
+                //SprintToggledOn = holdToSprint || !SprintToggledOn;
+                SprintToggledOn = !SprintToggledOn;
+            }
+            //else if (context.canceled)
+            //{
+            //    Debug.Log("context.canceled");
+            //    SprintToggledOn = !holdToSprint || SprintToggledOn;
+            //}
         }
     }
 

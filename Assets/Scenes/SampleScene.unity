@@ -3581,6 +3581,8 @@ GameObject:
   - component: {fileID: 6580667457964226258}
   - component: {fileID: 8566514099417890759}
   - component: {fileID: 8346397085888967703}
+  - component: {fileID: 8566514099417890761}
+  - component: {fileID: 8566514099417890760}
   m_Layer: 0
   m_Name: ThirdPerson
   m_TagString: Untagged
@@ -5222,7 +5224,10 @@ MonoBehaviour:
   playerCamera: {fileID: 2095887958380256012}
   runAcceleration: 50
   runSpeed: 4
+  sprintAcceleration: 100
+  sprintSpeed: 10
   drag: 40
+  movingThreshold: 0.01
 --- !u!4 &6603483002181254248
 Transform:
   m_ObjectHideFlags: 0
@@ -6558,6 +6563,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b20a27fc1c82334f885aae47574b530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdToSprint: 1
+--- !u!114 &8566514099417890760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794037302210008285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65458dc27c579894f9e32a19a258d2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5454662348254779682}
+  locomotionBlendSpeed: 4
+--- !u!114 &8566514099417890761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794037302210008285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61611358ce1c0724aba1f327904ad67c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <CurrentPlayerMovementState>k__BackingField: 0
 --- !u!4 &8611964792586958694
 Transform:
   m_ObjectHideFlags: 0

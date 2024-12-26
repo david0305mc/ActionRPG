@@ -37,6 +37,15 @@ namespace David
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SprintToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""a70ae013-3613-4e5f-89cc-7ce6a11676e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -149,6 +158,17 @@ namespace David
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c687b69f-8de2-4c6b-b6de-2ec3e4315a9e"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SprintToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -158,6 +178,7 @@ namespace David
             // PlayerMosion
             m_PlayerMosion = asset.FindActionMap("PlayerMosion", throwIfNotFound: true);
             m_PlayerMosion_Movement = m_PlayerMosion.FindAction("Movement", throwIfNotFound: true);
+            m_PlayerMosion_SprintToggle = m_PlayerMosion.FindAction("SprintToggle", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -220,11 +241,13 @@ namespace David
         private readonly InputActionMap m_PlayerMosion;
         private List<IPlayerMosionActions> m_PlayerMosionActionsCallbackInterfaces = new List<IPlayerMosionActions>();
         private readonly InputAction m_PlayerMosion_Movement;
+        private readonly InputAction m_PlayerMosion_SprintToggle;
         public struct PlayerMosionActions
         {
             private @PlayerInput m_Wrapper;
             public PlayerMosionActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_PlayerMosion_Movement;
+            public InputAction @SprintToggle => m_Wrapper.m_PlayerMosion_SprintToggle;
             public InputActionMap Get() { return m_Wrapper.m_PlayerMosion; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -237,6 +260,9 @@ namespace David
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @SprintToggle.started += instance.OnSprintToggle;
+                @SprintToggle.performed += instance.OnSprintToggle;
+                @SprintToggle.canceled += instance.OnSprintToggle;
             }
 
             private void UnregisterCallbacks(IPlayerMosionActions instance)
@@ -244,6 +270,9 @@ namespace David
                 @Movement.started -= instance.OnMovement;
                 @Movement.performed -= instance.OnMovement;
                 @Movement.canceled -= instance.OnMovement;
+                @SprintToggle.started -= instance.OnSprintToggle;
+                @SprintToggle.performed -= instance.OnSprintToggle;
+                @SprintToggle.canceled -= instance.OnSprintToggle;
             }
 
             public void RemoveCallbacks(IPlayerMosionActions instance)
@@ -264,6 +293,7 @@ namespace David
         public interface IPlayerMosionActions
         {
             void OnMovement(InputAction.CallbackContext context);
+            void OnSprintToggle(InputAction.CallbackContext context);
         }
     }
 }
